@@ -10,7 +10,6 @@ except Exception,e:
     print "Error was: ",e
     sys.exit(1)
 
-# Example showing how to switch on a group
 name = 'FaceLeds'
 proxy.on(name)
 
