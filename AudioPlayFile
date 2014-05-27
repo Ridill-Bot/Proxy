@@ -13,7 +13,6 @@ except Exception,e:
     print "Error was: ",e
     sys.exit(1)
 
-#Loads a file and launchs the playing 5 seconds later
 fileId = aup.loadFile("/home/nao/naoqi/no_problemo.wav")
 time.sleep(1)
 aup.play(fileId)
