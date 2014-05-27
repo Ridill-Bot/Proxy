@@ -1,0 +1,19 @@
+import sys
+import time
+from naoqi import ALProxy
+IP = "192.168.1.1"
+PORT = 9559
+
+
+
+try:
+    aup = ALProxy("ALAudioPlayer", IP, PORT)
+except Exception,e:
+    print "Could not create proxy to ALAudioPlayer"
+    print "Error was: ",e
+    sys.exit(1)
+
+#Loads a file and launchs the playing 5 seconds later
+fileId = aup.loadFile("/home/nao/naoqi/no_problemo.wav")
+time.sleep(1)
+aup.play(fileId)
