@@ -1,0 +1,57 @@
+import time
+from naoqi import ALProxy
+
+IP = "192.168.0.1"
+PORT = 9559
+
+#Create a proxy to ALSpeechRecognition
+try:
+    tts = ALProxy("ALTextToSpeech", IP, PORT)
+    asr = ALProxy("ALSpeechRecognition", IP, PORT)
+except Exception, e:
+    print "Error when creating speech recognition proxy:"
+    print str(e)
+    exit(1)
+
+#subscribe to the ALSpeechRecognition proxy
+#this means that the module will write in ALMemory with
+#the given period below
+period = 500
+asr.subscribe("Test_speech", period, 0.0 )
+
+#ALMemory variable where the ALSpeechRecognition module
+##outputs its results
+
+speechDetected  = "SpeechDetected"
+wordRecognized = "WordRecognized"
+#create command as a vocabulary which robot can understand
+wordList = ["fire","walk",]
+#wordList[0] = fire
+#wordList[1] = walk
+command= asr.setWordListAsVocabulary(wordList)
+
+#create a proxy to ALMemory
+try:
+    memoryProxy = ALProxy("ALMemory", IP, PORT)
+except Exception,e:
+    print"Error when creating memory proxy:"
+    print str(e)
+    exit(1)
+
+#a simple loop that read the speechDetected and checks whether speech are detected.
+for i in range(0, 20):
+    time.sleep(0.5)
+    dataInMemory = memoryProxy.getData(speechDetected,0)
+    print""
+    print"\******"
+    print""
+#should write a if statement about word recognized() and dataInMemory
+if wordRecognized(wordList[0]):
+    tts.say("hello")
+else:
+     print "no speech detected"
+
+#unsubscribe the module.
+asr.unsubscribe("Test_speech")
+
+print "Test successfully"
