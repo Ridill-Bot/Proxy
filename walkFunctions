@@ -1,0 +1,26 @@
+# Filename: walkFunctions.py
+
+from naoqi import ALProxy
+from proxy import makeProxy
+from detectLandmarks import calculateData
+
+
+myProxy = makeProxy()
+myCalcData = calculateData()
+
+class robotFunctions():
+
+    def robotWalk(self):
+
+        # Get the parameters
+        x = myCalcData.returnXrayValue()
+        y = myCalcData.returnYankeeValue()
+        theta = myCalcData.returnZuluValue()
+
+        # Unstiff the robot
+        myProxy.unstiffRobot()
+
+        # Call initiateWalk()
+        myProxy.initiateWalk()
+
+        myProxy.robotWalkTo(x, y, theta)
